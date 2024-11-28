@@ -7,7 +7,7 @@ module.exports = {
   Query: {
     async getPosts() {
       try {
-        const posts = await Post.find();
+        const posts = await Post.find().sort({ createdAt: -1 });
         return posts;
       } catch (err) {
         throw new Error(err);
@@ -48,7 +48,7 @@ module.exports = {
       try {
         const post = await Post.findById(postId);
         if (user.username === post.username) {
-          await post.delete();
+          await post.deleteOne();
           return "Post deleted successfully";
         } else {
           throw new AuthenticationError("Action not allowed");
